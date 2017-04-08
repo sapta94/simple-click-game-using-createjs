@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<title>CliCk It!</title>
+	<style>
+		#mycanvas {
+		 border: 1px solid teal;
+		 background-color: #d6d6c2;
+		 margin-left:400px;
+		}
+	</style>
+	 <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+	 <script> 
+	var sc=0;
+	var time=60;
+      function init() {
+	     console.log("init called");
+		 setInterval("setup()",500);
+		 }
+		function setup() {
+		if(time<=0)
+		{
+		  alert('Sorry!!Times Up. Your Score is : '+sc);
+		  location.reload();
+		}
+		else{
+		  document.getElementById("tm").innerHTML=--time;
+		  }
+		  
+		createjs.Sound.registerSound("tones/mouseclick.wav","soundclick");
+		createjs.Sound.addEventListener("loadComplete",handleComplete);
+        var stage = new createjs.Stage("mycanvas");
+        var rect = new createjs.Shape();
+		rect.addEventListener("click",handleClick);
+		//stage.addEventListener("click",bodyclick);
+        rect.graphics.beginFill("DeepSkyBlue").drawRect(0, 0, 60,60);
+        rect.x = 50;
+        rect.y = 50;
+		stage.addChild(rect);
+		
+		
+		createjs.Tween.get(rect,{loop:false}).to({x:Math.random()*450, y:Math.random()*450},1000);
+		createjs.Ticker.setFPS(60);
+		createjs.Ticker.addEventListener("tick", stage);  
+     
+      }
+	  function handleComplete(event){
+		
+	  }
+	  function handleClick(event){
+		console.log("clicked!");
+		createjs.Sound.play("soundclick");
+		document.getElementById("score").innerHTML=++sc;
+	  }
+	  
+    </script>
+  <head>
+  <body onload="init()">
+	<canvas id="mycanvas" height="500" width="500">
+		
+	</canvas>
+	<h2>Score: <div id="score"></div> </h2>
+	<h2 style="position:absolute;right:80px; top:20px">Time: <div id="tm"></div></h2>
+	
+	
+  </body>
+</html>
